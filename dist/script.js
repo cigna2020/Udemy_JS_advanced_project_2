@@ -955,9 +955,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var modals = function modals() {
+  var btnPressed = false; // будет true, если пользователь кликнит на какую-либо кнопку
+
   function bindModal(triggerSelector, modalSelector, closeSelector) {
-    var closeClickOverlay = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
+    var destroy = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
     // triggerSelector - класс, который обьеденяет все кнопки, modalSelector - класс модального окна
+    // closeClickOverlay = true заменили на destroy, потому что в задании все окна закрываются при клике на подложку
     var trigger = document.querySelectorAll(triggerSelector),
         modal = document.querySelector(modalSelector),
         close = document.querySelector(closeSelector),
@@ -972,9 +975,17 @@ var modals = function modals() {
           e.preventDefault();
         }
 
+        btnPressed = true;
+
+        if (destroy) {
+          // удалить "подарок" с страницы после клика на нем
+          item.remove();
+        }
+
         windows.forEach(function (item) {
           // закрываем все открытые модальные окна
           item.style.display = 'none';
+          item.classList.add('animated', 'fadeIn'); // добавляем анимацию, при условии, что подключено animate.css
         });
         modal.style.display = 'block';
         document.body.style.overflow = 'hidden'; // страница под модальн.окном не будет скролится
@@ -994,7 +1005,7 @@ var modals = function modals() {
       // document.body.classList.remove('modal-open');       // класс из bootstrap, вместо вышеуказанного кода
     });
     modal.addEventListener('click', function (e) {
-      if (e.target === modal && closeClickOverlay) {
+      if (e.target === modal) {
         // closeClickOverlay = false нужно передать при вызове функции чтобы "подложка" не закрывала модальное окно
         windows.forEach(function (item) {
           // закрываем все открытые модальные окна
@@ -1025,6 +1036,8 @@ var modals = function modals() {
       if (!display) {
         document.querySelector(selector).style.display = 'block';
         document.body.style.overflow = 'hidden';
+        var scroll = calcScroll();
+        document.body.style.marginRight = "".concat(scroll, "px");
       }
     }, time);
   }
@@ -1043,8 +1056,20 @@ var modals = function modals() {
     return scrollWidth;
   }
 
+  function openByScroll(selector) {
+    window.addEventListener('scroll', function () {
+      var scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight); // оптимизация под старые браузеры
+
+      if (!btnPressed && window.pageYOffset + document.documentElement.clientHeight >= scrollHeight) {
+        document.querySelector(selector).click(); // ручной вызов click, если бы кликнули на кнопку (в данному случае - подарок)
+      }
+    });
+  }
+
   bindModal('.button-design', '.popup-design', '.popup-design .popup-close');
   bindModal('.button-consultation', '.popup-consultation', '.popup-consultation .popup-close');
+  bindModal('.fixed-gift', '.popup-gift', '.popup-gift .popup-close', true);
+  openByScroll('.fixed-gift');
   showModalByTime('.popup-consultation', 2000);
 };
 
