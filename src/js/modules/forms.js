@@ -1,4 +1,5 @@
 // import checkNumInputs from './checkNumInputs';
+import { postData } from '../services/requests';
 
 const forms = () => {                  // state, как аргумент - modalState (данные с формы), актуально только для калькулятора
 
@@ -29,15 +30,15 @@ const forms = () => {                  // state, как аргумент - modal
         question: 'assets/question.php'
     };
 
-    const postData = async (url, data) => {
-        // document.querySelector('.status').textContent = message.loading; //заком., если будет отображатся спиннер
-        let res = await fetch(url, {        // await - чтобы дождатся ответа от сервера, иначе код будет выполнятся с пустым res
-            method: "POST",
-            body: data
-        });
+    // const postData = async (url, data) => {      // Перенесли в файл serveces/requests.js а сюда импортируем
+    //     // document.querySelector('.status').textContent = message.loading; //заком., если будет отображатся спиннер
+    //     let res = await fetch(url, {        // await - чтобы дождатся ответа от сервера, иначе код будет выполнятся с пустым res
+    //         method: "POST",
+    //         body: data
+    //     });
 
-        return await res.text(); // await, иначе return выполнится без ничего, т.е. без res.text()
-    };
+    //     return await res.text(); // await, иначе return выполнится без ничего, т.е. без res.text()
+    // };
 
     const clearInputs = () => {         // очистить инпуты
         inputs.forEach(item => {
