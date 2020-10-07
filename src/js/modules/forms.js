@@ -3,7 +3,8 @@
 const forms = () => {                  // state, как аргумент - modalState (данные с формы), актуально только для калькулятора
 
     const form = document.querySelectorAll('form'),
-        inputs = document.querySelectorAll('input');
+        inputs = document.querySelectorAll('input'),
+        upload = document.querySelectorAll('[name = "upload"]');
 
 
     // checkNumInputs('input[name = "user_phone"]');
@@ -42,7 +43,21 @@ const forms = () => {                  // state, как аргумент - modal
         inputs.forEach(item => {
             item.value = '';
         });
+        upload.forEach(item => {
+            item.previousElementSibling.textContent = 'Файл не выбран!';
+        });
     };
+
+    upload.forEach(item => {                    // получаем имья загружаемого файла
+        item.addEventListener('input', () => {
+            console.log(item.files[0].name);
+            let dots;
+            const arr = item.files[0].name.split('.');
+            arr[0].length > 5 ? dots = '...' : dots = '.';  // розделяем имья файла на две части - до и после (формат) точки
+            const name = arr[0].substring(0, 6) + dots + arr[1];  // обрезаем длинное имья
+            item.previousElementSibling.textContent = name;     //заменяем надпись "файл не выбран" именем файла
+        });
+    });
 
     const closeModalPopup = () => {
         const modalPopup = document.querySelectorAll('.popup_calc_end');
@@ -76,23 +91,34 @@ const forms = () => {                  // state, как аргумент - modal
             statusMessage.appendChild(textMessage);
 
             const formData = new FormData(item);    // FormData найдете все импуты формы (item), соберет данные (текст, файлы..., зависит от формы, в нашем слачае Ф.И.О, телефон)
-            // if (item.getAttribute('data-calc') === 'end') { // заком., иначе не работает append   // data-calc = 'end' есть только у формы-калькулятора
-            for (let key in state) {                        // state - modalState (данные калькулятора), key - ключ масива
-                formData.append(key, state[key]);
-            }
-
+            // // if (item.getAttribute('data-calc') === 'end') { // заком., иначе не работает append   // data-calc = 'end' есть только у формы-калькулятора
+            // for (let key in state) {                        // state - modalState (данные калькулятора), key - ключ масива
+            //     formData.append(key, state[key]);
             // }
+            // }
+            let api;        // динамический путь, куда будем отправлять данные
+            item.closest('.popup-design') || item.classList.contains('calc_form') ? api = path.designer : api = path.question;       // найти элемент выше по иерархии, если есть - design (если форма с загрузкой картинки), нет - question, если много вариантов - использовать switch - case
+            console.log(api);
 
-            postData('assets/server.php', formData)
+            // postData('assets/server.php', formData)
+            postData(api, formData)
                 .then(res => {
                     console.log(res);
-                    statusMessage.textContent = message.success;
+                    statusImg.setAttribute('src', message.ok);
+                    textMessage.textContent = message.success;
                 })
-                .catch(() => statusMessage.textContent = message.failure)
+                // .catch(() => statusMessage.textContent = message.failure)
+                .catch(() => {
+                    statusImg.setAttribute('src', message.fail);
+                    textMessage.textContent = message.failure;
+                })
                 .finally(() => {
                     clearInputs();
                     setTimeout(() => {
                         statusMessage.remove();
+                        item.style.display = 'block';
+                        item.classList.remove('fadeOutUp');
+                        item.classList.add('fadeInUp');
                         closeModalPopup();
                     }, 2000);
                 });
