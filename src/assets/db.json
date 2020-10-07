@@ -1,6 +1,5 @@
 {
-    "styles": [
-        {
+    "styles": [{
             "src": "assets/img/styles-5.jpg",
             "title": "Пастелью",
             "link": "#pastel"

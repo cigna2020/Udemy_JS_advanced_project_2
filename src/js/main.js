@@ -1,4 +1,5 @@
 import checkTextInputs from './modules/checkTextInputs';
+import culc from './modules/culc';
 import forms from './modules/forms';
 import mask from './modules/mask';
 import modals from './modules/modals';
@@ -17,5 +18,6 @@ window.addEventListener('DOMContentLoaded', () => {
     checkTextInputs('[name = "message"]');
     // showMoreStyles('.button-styles', '.styles-2');  // заком., используем БД
     showMoreStyles('.button-styles', '#styles .row');
+    culc('#size', '#material', '#options', '.promocode', '.calc-price');
 
 });
