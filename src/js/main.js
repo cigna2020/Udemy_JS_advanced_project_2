@@ -1,3 +1,4 @@
+import accordion from './modules/accordion';
 import checkTextInputs from './modules/checkTextInputs';
 import culc from './modules/culc';
 import filter from './modules/filter';
@@ -23,5 +24,6 @@ window.addEventListener('DOMContentLoaded', () => {
     culc('#size', '#material', '#options', '.promocode', '.calc-price');
     filter();
     pictureSize('.sizes-block');
+    accordion('.accordion-heading ', '.accordion-block');
 
 });
