@@ -1,4 +1,5 @@
 import accordion from './modules/accordion';
+import burger from './modules/burger';
 import checkTextInputs from './modules/checkTextInputs';
 import culc from './modules/culc';
 import filter from './modules/filter';
@@ -26,5 +27,6 @@ window.addEventListener('DOMContentLoaded', () => {
     pictureSize('.sizes-block');
     // accordion('.accordion-heading ', '.accordion-block');  // css-animation
     accordion('.accordion-heading');  // using js
+    burger('.burger-menu', '.burger');
 
 });
