@@ -7,6 +7,7 @@ import forms from './modules/forms';
 import mask from './modules/mask';
 import modals from './modules/modals';
 import pictureSize from './modules/pictureSize';
+import scrolling from './modules/scrolling';
 import showMoreStyles from './modules/showMoreStyles';
 import sliders from './modules/sliders';
 
@@ -28,5 +29,6 @@ window.addEventListener('DOMContentLoaded', () => {
     // accordion('.accordion-heading ', '.accordion-block');  // css-animation
     accordion('.accordion-heading');  // using js
     burger('.burger-menu', '.burger');
+    scrolling('.pageup');
 
 });
