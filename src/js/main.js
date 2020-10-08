@@ -24,6 +24,7 @@ window.addEventListener('DOMContentLoaded', () => {
     culc('#size', '#material', '#options', '.promocode', '.calc-price');
     filter();
     pictureSize('.sizes-block');
-    accordion('.accordion-heading ', '.accordion-block');
+    // accordion('.accordion-heading ', '.accordion-block');  // css-animation
+    accordion('.accordion-heading');  // using js
 
 });
