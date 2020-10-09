@@ -2,6 +2,7 @@ import accordion from './modules/accordion';
 import burger from './modules/burger';
 import checkTextInputs from './modules/checkTextInputs';
 import culc from './modules/culc';
+import drop from './modules/drop';
 import filter from './modules/filter';
 import forms from './modules/forms';
 import mask from './modules/mask';
@@ -30,5 +31,6 @@ window.addEventListener('DOMContentLoaded', () => {
     accordion('.accordion-heading');  // using js
     burger('.burger-menu', '.burger');
     scrolling('.pageup');
+    drop();
 
 });
